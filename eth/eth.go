@@ -23,5 +23,5 @@ func GetLatestBlock(cl Client) *types.Block {
   }
   _ = block
   return block 
- 
 }
+
