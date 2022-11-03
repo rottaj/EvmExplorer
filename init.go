@@ -4,11 +4,15 @@ import (
   "fmt"
   "log"
   "os"
-  //"context"
   //"time"
   //"math/big"
+  //"context"
+  //"github.com/ethereum/go-ethereum/core/types"
   "github.com/ethereum/go-ethereum/ethclient"
   "github.com/joho/godotenv"
+
+  "github.com/rottaj/GoEVMExplorer/eth"
+  "github.com/rottaj/GoEVMExplorer/ui"
 )
 
 func main() {
@@ -24,6 +28,11 @@ func main() {
   fmt.Println("Client Connected")
   //latestBlock := GetLatestBlock(client)
   _ = client
+
+  block := eth.GetLatestBlock(client)
+  fmt.Println("Block", block)
   //time.Sleep(12 * time.Second)
+  viewer := new(ui.Viewer)
+  viewer.Init()
 
 }
