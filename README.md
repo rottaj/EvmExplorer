@@ -2,23 +2,16 @@
 
 For those with Geth node that want a block explorer built in their terminal.
 
-
-
-### Built With
+### Built With:
 
 * ![Golang](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
-* ![go-ethereum](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+* ![go-ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-
 ### Prerequisites
-
 Install the latest version of Go from their [webpage](https://go.dev/doc/install)
 * Go
   ```sh
@@ -26,8 +19,6 @@ Install the latest version of Go from their [webpage](https://go.dev/doc/install
   ```
 
 ### Installation
-
-
 1. Get an Ethereum RPC URL. If not running locally you can find on [here](https://www.alchemy.com/)
 2. Clone the repo
    ```sh
