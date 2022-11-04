@@ -1,6 +1,6 @@
 # GoEthExplorer
 
-For those with Geth node that want a block explorer built in their terminal.
+For those running Geth that want some cool terminal based tooling.
 
 ### Built With:
 
