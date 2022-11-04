@@ -19,7 +19,7 @@ Install the latest version of Go from their [webpage](https://go.dev/doc/install
   ```
 
 ### Installation
-1. Get an Ethereum RPC URL. If not running locally you can find on [here](https://www.alchemy.com/)
+1. Get an Ethereum RPC URL. If you don't have one you can fine one [here](https://www.alchemy.com/)
 2. Clone the repo
    ```sh
    git clone https://github.com/rottaj/GoEthExplorer.git
