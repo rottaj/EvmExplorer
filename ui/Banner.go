@@ -7,7 +7,7 @@ import (
   "github.com/gdamore/tcell"
 )
 
-func drawBanner(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style) {
+func Banner(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style) {
   if y2 < y1 {
 		y1, y2 = y2, y1
 	}
@@ -44,7 +44,7 @@ func drawBanner(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style) {
 	headerTwo := "Created by: rottaj"
 
 
-	drawText(s, x1+1, y1+1, x2-1, y2-1, style, header)
-	drawText(s, x1+3, y1+3, x2-3, y2-3, style, headerTwo)
+	Text(s, x1+1, y1+1, x2-1, y2-1, style, header)
+	Text(s, x1+3, y1+3, x2-3, y2-3, style, headerTwo)
 }
 

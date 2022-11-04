@@ -1,6 +1,7 @@
 package eth
 
 import (
+  _"fmt"
   "log"
   "context"
   "math/big"
@@ -22,6 +23,7 @@ func GetLatestBlock(cl Client) *types.Block {
     log.Fatal(err)
   }
   _ = block
+  //fmt.Println("BLOCK", block.Time())
   return block 
 }
 

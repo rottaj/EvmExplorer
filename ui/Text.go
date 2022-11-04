@@ -4,7 +4,7 @@ import (
 	"github.com/gdamore/tcell"
 )
 
-func drawText(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style, text string) {
+func Text(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style, text string) {
 	row := y1
 	col := x1
 	for _, r := range []rune(text) {
