@@ -1,38 +1,46 @@
 package ui
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/rivo/tview"
-	"github.com/rottaj/GoEthExplorer/opcodes"
 )
 
-func InitializeMainViewer(ops []string) {
-	box := tview.NewBox().SetBorder(true).SetTitle("Go Eth Explorer")
-	opsTable := tview.NewTable()
-	opsTable.SetTitle("Operations").SetBorder(true)
-
-	var stack [][]string
-	_ = stack
-	for i := 0; i < len(ops)-1; i++ {
-		var temp []string
-		temp = append(temp, ops[i])
-		if strings.HasPrefix(ops[i+1], "0x") {
-			temp = append(temp, ops[i+1])
-			i++
-		}
-		fmt.Println(temp)
-		stack = append(stack, temp)
-	}
-	fmt.Println(stack)
-
-	t := opcodes.StringToOpcode["STOP"]
-	fmt.Println(t)
-	tview.NewApplication().SetRoot(box, true).Run()
-
+type OperationUI struct {
+	app   *tview.Application
+	panel *tview.Flex
 }
 
-func InitilizeOperationTable(ops []string) {
+func InitializeMainViewer( /*ops []string*/ ) (app *tview.Application) {
 
+	app = tview.NewApplication()
+	pages := tview.NewPages()
+
+	operationUI := createOperationPanel(app)
+	layout := createMainLayout(operationUI)
+	pages.AddPage("main", layout, true, true)
+
+	app.SetRoot(pages, true)
+	return app
+}
+
+func createOperationPanel(app *tview.Application) (operationPanel *tview.Flex) {
+	operationPanel = tview.NewFlex().SetDirection(tview.FlexRow)
+
+	return operationPanel
+}
+
+func createMainLayout(operationPanel tview.Primitive) (layout *tview.Flex) {
+	///// Main Layout /////
+	mainLayout := tview.NewFlex().SetDirection(tview.FlexColumn).
+		AddItem(operationPanel, 0, 4, false)
+
+	info := tview.NewTextView()
+	info.SetBorder(true)
+	info.SetText("<Go EVM Explorer - a rottaj project>")
+	info.SetTextAlign(tview.AlignCenter)
+
+	layout = tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(mainLayout, 0, 20, true).
+		AddItem(info, 3, 1, false)
+
+	return layout
 }
