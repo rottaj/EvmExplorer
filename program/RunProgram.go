@@ -45,7 +45,7 @@ func RunProgram(filePath string) {
 
 	steps := getStepsFromOpcodes(contractOpcodes)
 	fmt.Println(steps)
-	app := ui.InitializeMainViewer()
+	app := ui.InitializeMainViewer(steps)
 
 	if err := app.Run(); err != nil {
 		panic(err)
