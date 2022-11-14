@@ -1,7 +1,6 @@
 package program
 
 import (
-	"fmt"
 	"log"
 	"os/exec"
 	"strings"
@@ -12,17 +11,13 @@ import (
 func RunProgram(filePath string) {
 	asmRet := BuildAssemblyFromSol(filePath)
 	x := strings.Fields(string(asmRet))
-	for i, op := range x {
+	for i, op := range x { // Splices contstuctor operations --> Keeps only main code
 		if op == "Opcodes:" {
 			x = x[i+1:]
 		}
 	}
 
-	fmt.Println("x", x, len(x))
-	//ui.MainViewer()
-	//ui.InitilizeOperationTable(x)
-
-	ui.InitializeMainViewer(x)
+	ui.InitializeMainViewer(x) // Passes OpCodes
 }
 
 func BuildAssemblyFromSol(filePath string) []byte {
