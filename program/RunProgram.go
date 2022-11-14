@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/rottaj/GoEthExplorer/ui"
+	"github.com/rottaj/GoEvmExplorer/ui"
 )
 
 func BuildAssemblyFromSol(filePath string) []byte {

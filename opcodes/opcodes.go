@@ -190,7 +190,7 @@ var (
 )
 
 // Create mapping of strings -> structs
-var StringToOpcode = map[string]interface{}{
+var StringToOpcode = map[string]Opcode{
 	"STOP":           STOP,
 	"ADD":            ADD,
 	"MUL":            MUL,

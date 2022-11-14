@@ -1,11 +1,12 @@
-module github.com/rottaj/GoEthExplorer
+module github.com/rottaj/GoEvmExplorer
 
 go 1.19
 
 require (
-	github.com/ethereum/go-ethereum v1.10.25
-	github.com/gdamore/tcell v1.4.0
+	github.com/ethereum/go-ethereum v1.10.26
 	github.com/joho/godotenv v1.4.0
+	github.com/rivo/tview v0.0.0-20221114151112-0b2ae1082352
+	github.com/rottaj/GoEthExplorer v0.0.0-20221114220309-ce47a78d41ae
 )
 
 require (
@@ -20,7 +21,6 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
-	github.com/rivo/tview v0.0.0-20221029100920-c4a7e501810d // indirect
 	github.com/rivo/uniseg v0.4.2 // indirect
 	github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible // indirect
 	github.com/tklauser/go-sysconf v0.3.5 // indirect
