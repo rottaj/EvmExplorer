@@ -1,4 +1,4 @@
-# GoEthExplorer
+# GoEvmExplorer
 
 For those running Geth that want some cool terminal based tooling.
 
