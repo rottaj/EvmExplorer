@@ -43,9 +43,10 @@ func RunProgram(filePath string) {
 	opcodesAsm := BuildAssemblyFromSol(filePath)          // Binary
 	contractOpcodes := strings.Fields(string(opcodesAsm)) // Strings
 	fmt.Println(contractOpcodes)
-	steps := getStepsFromOpcodes(contractOpcodes)
-	fmt.Println(steps)
-	app := ui.InitializeMainViewer(steps)
+	opcodeSteps := getStepsFromOpcodes(contractOpcodes)
+
+	app := ui.InitializeMainViewer(opcodeSteps)
+
 	if err := app.Run(); err != nil {
 		panic(err)
 	}

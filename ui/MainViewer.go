@@ -5,20 +5,27 @@ import (
 )
 
 // Create Operations Panel - Opcodes Table
-func createOperationStepsPanel(opcodes [][]string) (operationStepsPanel *tview.Flex) {
+func createOpcodePanel(opcodes [][]string) *tview.Flex {
+	// opcodePanel is adds Table w/ opcodePanelAddItem in UI creator
 	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-
-	opcodePanel := createOperationStepsUI(flexPanel, opcodes)
+	opcodePanel := createOpcodePanelUI(flexPanel, opcodes)
 	opcodePanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
-
 	return opcodePanel
 }
 
+func createStackPanel(ops [][]string) *tview.Flex {
+	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
+	stackPanel := createStackPanelUI(flexPanel, ops)
+	stackPanel.SetBorder(true).SetTitle("Stack").SetTitleAlign(0)
+	return stackPanel
+}
+
 // Create Main Layout - Add Operations table to MainViewer
-func createMainLayout(opcodePanel tview.Primitive) (layout *tview.Flex) {
+func createMainLayout(opcodePanel tview.Primitive, stackPanel tview.Primitive) (layout *tview.Flex) {
 	///// Main Layout /////
-	mainLayout := tview.NewFlex().SetDirection(tview.FlexColumn).
-		AddItem(opcodePanel, 0, 4, true)
+	mainLayout := tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(opcodePanel, 0, 17, true).
+		AddItem(stackPanel, 0, 3, true)
 
 	footer := tview.NewTextView()
 	footer.SetBorder(true)
@@ -32,13 +39,16 @@ func createMainLayout(opcodePanel tview.Primitive) (layout *tview.Flex) {
 	return layout
 }
 
+// MainViewer receives all opcodes, and empty stack.
+// Passes opcodes & stack to child components.
 func InitializeMainViewer(ops [][]string) (app *tview.Application) {
 
 	app = tview.NewApplication()
 	pages := tview.NewPages()
 
-	opcodePanel := createOperationStepsPanel(ops) // Creates Panel (calls OperationStepsUI)
-	layout := createMainLayout(opcodePanel)
+	opcodePanel := createOpcodePanel(ops)   // Creates opcodePanel
+	stackPanel := createStackPanel(ops[:5]) // Creates stackPanel (initalizes stack w/ pos 1)
+	layout := createMainLayout(opcodePanel, stackPanel)
 	pages.AddPage("main", layout, true, true)
 
 	app.SetRoot(pages, true).SetFocus(pages)
