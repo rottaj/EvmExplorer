@@ -1,6 +1,6 @@
-# GoEvmExplorer
+# EvmExplorer
 
-For those running Geth that want some cool terminal based tooling.
+EVM terminal tooling for your solidity development! :heart:
 
 ### Built With:
 
@@ -22,19 +22,19 @@ Install the latest version of Go from their [webpage](https://go.dev/doc/install
 1. Get an Ethereum RPC URL. If you don't have one you can fine one [here](https://www.alchemy.com/)
 2. Clone the repo
    ```sh
-   git clone https://github.com/rottaj/GoEthExplorer.git
+   git clone https://github.com/rottaj/EvmExplorer.git
    ```
 3. Build the repo
    ```sh
    go build
    ```
-4. Enter your RPC_URL in `.env`
+4. Debug your contract! 
    ```sh
-   RPC_URL = 'ENTER YOUR RPC URL';
+   ./EvmExplorer tests/Storage.sol 
    ```
 
 ### Debugger
-The debugger allows you to perform analysis on your solidity contracts.
+Perform analysis on your solidity contracts with the debugger.
 
 ![alt text](https://github.com/rottaj/EvmExplorer/blob/main/media/preview.png)
 
