@@ -1,4 +1,4 @@
-module github.com/rottaj/GoEvmExplorer
+module github.com/rottaj/EvmExplorer
 
 go 1.19
 
@@ -6,7 +6,6 @@ require (
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/joho/godotenv v1.4.0
 	github.com/rivo/tview v0.0.0-20221114151112-0b2ae1082352
-	github.com/rottaj/GoEthExplorer v0.0.0-20221114220309-ce47a78d41ae
 )
 
 require (

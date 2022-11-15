@@ -1,2 +1,3 @@
 .env
-GoEthExplorer
+EVMExplorer
+.DS_Store

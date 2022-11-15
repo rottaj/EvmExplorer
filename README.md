@@ -33,4 +33,9 @@ Install the latest version of Go from their [webpage](https://go.dev/doc/install
    RPC_URL = 'ENTER YOUR RPC URL';
    ```
 
+### Debugger
+The debugger allows you to perform analysis on your solidity contracts.
+
+![alt text](https://github.com/rottaj/EvmExplorer/blob/main/media/preview.png)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

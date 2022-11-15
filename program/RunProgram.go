@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/rottaj/GoEvmExplorer/ui"
+	"github.com/rottaj/EvmExplorer/ui"
 )
 
 func BuildAssemblyFromSol(filePath string) []byte {
@@ -40,13 +40,12 @@ func getStepsFromOpcodes(contractOpcodes []string) [][]string {
 }
 
 func RunProgram(filePath string) {
-	opcodes := BuildAssemblyFromSol(filePath)
-	contractOpcodes := strings.Fields(string(opcodes))
-
+	opcodesAsm := BuildAssemblyFromSol(filePath)          // Binary
+	contractOpcodes := strings.Fields(string(opcodesAsm)) // Strings
+	fmt.Println(contractOpcodes)
 	steps := getStepsFromOpcodes(contractOpcodes)
 	fmt.Println(steps)
 	app := ui.InitializeMainViewer(steps)
-
 	if err := app.Run(); err != nil {
 		panic(err)
 	}

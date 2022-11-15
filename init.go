@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/rottaj/GoEthExplorer/program"
+	"github.com/rottaj/EvmExplorer/program"
 )
 
 func main() {

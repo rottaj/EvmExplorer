@@ -23,11 +23,10 @@ func InitializeMainViewer(ops [][]string) (app *tview.Application) {
 }
 
 func createOperationStepsPanel(opcodes [][]string) (operationStepsPanel *tview.Flex) {
-
 	operationStepsPanel = tview.NewFlex().SetDirection(tview.FlexRow)
 
 	operationsStepsPanel := createOperationStepsUI(operationStepsPanel, opcodes)
-	operationsStepsPanel.SetBorder(true)
+	operationsStepsPanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
 
 	return operationStepsPanel
 }
@@ -39,7 +38,7 @@ func createMainLayout(operationStepsPanel tview.Primitive) (layout *tview.Flex) 
 
 	footer := tview.NewTextView()
 	footer.SetBorder(true)
-	footer.SetText("<Go EVM Explorer - a rottaj project>")
+	footer.SetText("<EVM Explorer - a rottaj project>")
 	footer.SetTextAlign(tview.AlignCenter)
 
 	layout = tview.NewFlex().SetDirection(tview.FlexRow).
