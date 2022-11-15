@@ -4,37 +4,21 @@ import (
 	"github.com/rivo/tview"
 )
 
-type OperationUI struct {
-	app   *tview.Application
-	panel *tview.Flex
-}
-
-func InitializeMainViewer(ops [][]string) (app *tview.Application) {
-
-	app = tview.NewApplication()
-	pages := tview.NewPages()
-
-	operationStepsPanel := createOperationStepsPanel(ops) // Creates Panel (calls OperationStepsUI)
-	layout := createMainLayout(operationStepsPanel)
-	pages.AddPage("main", layout, true, true)
-
-	app.SetRoot(pages, true)
-	return app
-}
-
+// Create Operations Panel - Opcodes Table
 func createOperationStepsPanel(opcodes [][]string) (operationStepsPanel *tview.Flex) {
-	operationStepsPanel = tview.NewFlex().SetDirection(tview.FlexRow)
+	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
 
-	operationsStepsPanel := createOperationStepsUI(operationStepsPanel, opcodes)
-	operationsStepsPanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
+	opcodePanel := createOperationStepsUI(flexPanel, opcodes)
+	opcodePanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
 
-	return operationStepsPanel
+	return opcodePanel
 }
 
-func createMainLayout(operationStepsPanel tview.Primitive) (layout *tview.Flex) {
+// Create Main Layout - Add Operations table to MainViewer
+func createMainLayout(opcodePanel tview.Primitive) (layout *tview.Flex) {
 	///// Main Layout /////
 	mainLayout := tview.NewFlex().SetDirection(tview.FlexColumn).
-		AddItem(operationStepsPanel, 0, 4, false)
+		AddItem(opcodePanel, 0, 4, true)
 
 	footer := tview.NewTextView()
 	footer.SetBorder(true)
@@ -46,4 +30,17 @@ func createMainLayout(operationStepsPanel tview.Primitive) (layout *tview.Flex) 
 		AddItem(footer, 3, 1, false)
 
 	return layout
+}
+
+func InitializeMainViewer(ops [][]string) (app *tview.Application) {
+
+	app = tview.NewApplication()
+	pages := tview.NewPages()
+
+	opcodePanel := createOperationStepsPanel(ops) // Creates Panel (calls OperationStepsUI)
+	layout := createMainLayout(opcodePanel)
+	pages.AddPage("main", layout, true, true)
+
+	app.SetRoot(pages, true).SetFocus(pages)
+	return app
 }
