@@ -19,16 +19,15 @@ Install the latest version of Go from their [webpage](https://go.dev/doc/install
   ```
 
 ### Installation
-1. Get an Ethereum RPC URL. If you don't have one you can fine one [here](https://www.alchemy.com/)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/rottaj/EvmExplorer.git
    ```
-3. Build the repo
+2. Build the repo
    ```sh
    go build
    ```
-4. Debug your contract! 
+3. Debug your contract! 
    ```sh
    ./EvmExplorer tests/Storage.sol 
    ```
