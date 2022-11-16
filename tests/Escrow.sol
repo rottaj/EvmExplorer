@@ -1,7 +1,7 @@
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "./utils/Ownable.sol";
+import "./utils/ReentrancyGuard.sol";
 
 contract EscrowHandler is Ownable, ReentrancyGuard {
 
