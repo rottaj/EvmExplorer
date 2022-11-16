@@ -6,45 +6,43 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/rottaj/EvmExplorer/opcodes"
 	"github.com/rottaj/EvmExplorer/ui"
 )
 
-func BuildAssemblyFromSol(filePath string) []byte {
+func BuildAssemblyFromSol(filePath string) []string {
 	out, err := exec.Command("solc", "--opcodes", filePath).Output()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return out
+	return strings.Fields(string(out))
 
 }
 
 func getStepsFromOpcodes(contractOpcodes []string) [][]string {
-	for i, op := range contractOpcodes { // Splices contstuctor operations --> Keeps only main code
-		if op == "Opcodes:" {
-			contractOpcodes = contractOpcodes[i+1:]
-		}
-	}
 	var steps [][]string
 	for i := 0; i < len(contractOpcodes)-1; i++ {
-		var temp []string
-		temp = append(temp, contractOpcodes[i])
-		if strings.HasPrefix(contractOpcodes[i+1], "0x") {
-			temp = append(temp, contractOpcodes[i+1])
-			i++
+		_, isOpcode := opcodes.StringToOpcode[contractOpcodes[i]]
+		if isOpcode {
+			var temp []string
+			temp = append(temp, contractOpcodes[i])
+			if strings.HasPrefix(contractOpcodes[i+1], "0x") {
+				temp = append(temp, contractOpcodes[i+1])
+				i++
+			}
+			steps = append(steps, temp)
 		}
-		steps = append(steps, temp)
 	}
-
 	return steps
 }
 
 func RunProgram(filePath string) {
-	opcodesAsm := BuildAssemblyFromSol(filePath)          // Binary
-	contractOpcodes := strings.Fields(string(opcodesAsm)) // Strings
-	fmt.Println(contractOpcodes)
+	contractOpcodes := BuildAssemblyFromSol(filePath) // Binary
+	fmt.Println(contractOpcodes, len(contractOpcodes))
 	opcodeSteps := getStepsFromOpcodes(contractOpcodes)
-
+	_ = opcodeSteps
+	fmt.Println(opcodeSteps)
 	app := ui.InitializeMainViewer(opcodeSteps)
 
 	if err := app.Run(); err != nil {
