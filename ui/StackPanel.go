@@ -19,15 +19,9 @@ func createStackPanelUI(stackPanel *tview.Flex, ops [][]string) *tview.Flex {
 	// Check opcodes and build stack
 	for i := 0; i <= len(ops)-1; i++ {
 		opCode := opcodes.StringToOpcode[ops[i][0]]
-		isPush := evm.IsPush(opCode)
-		if isPush {
-
-			fmt.Println("PUSH", i, ops[i], isPush)
-			stack.Add(ops[i][1])
-		} else {
-			i++
+		if opcodes.IsPush(opCode) {
+			stack.Push(ops[i][1])
 		}
-
 	}
 	for i, x := range stack.StackValue {
 		table.SetCell(i, 3, tview.NewTableCell(fmt.Sprintf(strconv.Itoa(i)+" "+x)))

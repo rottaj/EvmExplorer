@@ -335,3 +335,13 @@ var StringToOpcode = map[string]Opcode{
 	"INVALID":        INVALID,
 	"SELFDESTRUCT":   SELFDESTRUCT,
 }
+
+// Check Operation Codes
+
+func IsPush(op Opcode) bool {
+	if op == PUSH1 {
+		return true
+	} else {
+		return false
+	}
+}
