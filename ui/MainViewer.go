@@ -22,7 +22,7 @@ func createStackPanel(ops [][]string) *tview.Flex {
 
 func createMemoryPanel(ops [][]string) *tview.Flex {
 	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	stackPanel := createStackPanelUI(flexPanel, ops)
+	stackPanel := createMemoryPanelUI(flexPanel, ops)
 	stackPanel.SetBorder(true).SetTitle("Memory").SetTitleAlign(0)
 	return stackPanel
 }
