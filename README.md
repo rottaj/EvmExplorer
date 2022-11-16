@@ -40,6 +40,7 @@ If you find that a modification fixes an error or improves gas in your smart con
 Happy Hacking!
 
 ![alt text](https://github.com/rottaj/EvmExplorer/blob/main/media/preview_2.png)
+
 ![alt text](https://github.com/rottaj/EvmExplorer/blob/main/media/preview_1.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
