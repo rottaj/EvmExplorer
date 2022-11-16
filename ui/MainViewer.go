@@ -20,6 +20,20 @@ func createStackPanel(ops [][]string) *tview.Flex {
 	return stackPanel
 }
 
+func createMemoryPanel(ops [][]string) *tview.Flex {
+	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
+	stackPanel := createStackPanelUI(flexPanel, ops)
+	stackPanel.SetBorder(true).SetTitle("Memory").SetTitleAlign(0)
+	return stackPanel
+}
+
+func createStackAndMemoryPanel(stackPanel tview.Primitive, memoryPanel tview.Primitive) *tview.Flex {
+	stackAndMemoryPanel := tview.NewFlex().SetDirection(tview.FlexColumn).
+		AddItem(stackPanel, 0, 20, false).
+		AddItem(memoryPanel, 0, 20, false)
+	return stackAndMemoryPanel
+}
+
 // Create Main Layout - Add Operations table to MainViewer
 func createMainLayout(opcodePanel tview.Primitive, stackPanel tview.Primitive) (layout *tview.Flex) {
 	///// Main Layout /////
@@ -48,7 +62,9 @@ func InitializeMainViewer(ops [][]string) (app *tview.Application) {
 
 	opcodePanel := createOpcodePanel(ops)   // Creates opcodePanel
 	stackPanel := createStackPanel(ops[:5]) // Creates stackPanel (initalizes stack w/ pos 1)
-	layout := createMainLayout(opcodePanel, stackPanel)
+	memoryPanel := createMemoryPanel(ops[:5])
+	stackAndMemoryPanel := createStackAndMemoryPanel(stackPanel, memoryPanel)
+	layout := createMainLayout(opcodePanel, stackAndMemoryPanel)
 	pages.AddPage("main", layout, true, true)
 
 	app.SetRoot(pages, true).SetFocus(pages)
