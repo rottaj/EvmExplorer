@@ -11,7 +11,6 @@ import (
 
 func createStackPanelUI(stackPanel *tview.Flex, ops [][]string) *tview.Flex {
 	table := tview.NewTable().SetBorders(false)
-	fmt.Println("TESTESTS", ops)
 
 	// Iterate through ops and build Stack
 	var stack evm.Stack
