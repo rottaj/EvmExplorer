@@ -33,7 +33,7 @@ Install the latest version of Go from their [webpage](https://go.dev/doc/install
    ```
 
 ### Debugger
-Perform analysis on your solidity contracts with the debugger. 
+Use the debugger to analyze your solidity contracts.
 
 If you find that a modification fixes an error or improves gas in your smart contract, you can exit the debugging session, fix your solidity code, and recompile the smart contract. 
 
