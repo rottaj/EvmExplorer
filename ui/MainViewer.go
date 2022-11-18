@@ -6,8 +6,8 @@ import (
 )
 
 type MainUi struct {
-	MemoryPanel         *tview.Box
-	StackPanel          tview.Primitive
+	MemoryPanel         *tview.Table
+	StackPanel          *tview.Table
 	OpcodePanel         tview.Primitive
 	StackAndMemoryPanel tview.Primitive
 	Layout              tview.Primitive

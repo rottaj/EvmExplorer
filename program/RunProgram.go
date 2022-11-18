@@ -56,8 +56,8 @@ func RunProgram(filePath string) {
 	// InitializeMainViewer arguments: opcodeSteps, stack, memory, PC?
 	// Program computes everything then passes to frontend.
 	// When user wants to update viewer, rerender with spliced data ( handled in ui w/ key.Pressed )
-	app := ui.InitializeMainViewer(&evm)
 
+	app := ui.InitializeMainViewer(&evm)
 	if err := app.Run(); err != nil {
 		panic(err)
 	}

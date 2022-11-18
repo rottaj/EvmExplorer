@@ -6,7 +6,9 @@ import (
 )
 
 func (mainUi *MainUi) createMemoryPanel(evm *evm.Evm) { // Called on Init
-	memoryPanel := tview.NewTable().SetBorder(true).SetTitle("Memory")
+	//.SetBorder(true).SetTitle("Memory")
+	memoryPanel := tview.NewTable()
+	memoryPanel.SetBorder(true).SetTitle("Memory")
 	mainUi.MemoryPanel = memoryPanel
 }
 

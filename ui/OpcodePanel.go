@@ -23,7 +23,6 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 	for i, op := range evm.Ops {
 		temp := opcodes.StringToOpcode[op[0]]
 		currentGas += temp.StaticGas
-		fmt.Println(i+1, op, byte(temp.Op))
 		table.SetCell(i+1, 0, tview.NewTableCell("["+fmt.Sprint(i)+"]"))
 		if len(op) > 1 {
 			table.SetCell(i+1, 1, tview.NewTableCell(op[0]+" "+op[1]))
@@ -36,11 +35,13 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 	table.SetSelectable(true, false).
 		SetSelectedFunc(func(row int, column int) {
 
-			selectedOps := evm.Ops[:row]
-			fmt.Println(selectedOps)
+			//selectedOps := evm.Ops[:row]
+			//fmt.Println(selectedOps)
 			// Turn current cell (breakpoint) colorwhite
 			table.GetCell(row, column).SetTextColor(tcell.ColorWhite)
 			evm.Debug(row)
+			mainUi.StackPanel.Clear()
+			mainUi.updateStackPanel(evm)
 			//mainUi.MemoryPanel.SetCell(i+1, 4, tview.NewTableCell(fmt.Sprintf("%v", currentGas)))
 		})
 
