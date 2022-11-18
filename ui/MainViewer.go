@@ -2,27 +2,34 @@ package ui
 
 import (
 	"github.com/rivo/tview"
+	"github.com/rottaj/EvmExplorer/evm"
 )
 
+type MainUi struct {
+	MemoryPanel tview.Primitive
+	StackPanel  tview.Primitive
+	OpcodePanel tview.Primitive
+}
+
 // Create Operations Panel - Opcodes Table
-func createOpcodePanel(opcodes [][]string) *tview.Flex {
+func createOpcodePanel(evm *evm.Evm) *tview.Flex {
 	// opcodePanel is adds Table w/ opcodePanelAddItem in UI creator
 	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	opcodePanel := createOpcodePanelUI(flexPanel, opcodes)
+	opcodePanel := createOpcodePanelUI(flexPanel, evm)
 	opcodePanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
 	return opcodePanel
 }
 
-func createStackPanel(ops [][]string) *tview.Flex {
+func createStackPanel(evm *evm.Evm) *tview.Flex { // Call every state change
 	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	stackPanel := createStackPanelUI(flexPanel, ops)
+	stackPanel := createStackPanelUI(flexPanel, evm)
 	stackPanel.SetBorder(true).SetTitle("Stack").SetTitleAlign(0)
 	return stackPanel
 }
 
-func createMemoryPanel(ops [][]string) *tview.Flex {
+func createMemoryPanel(evm *evm.Evm) *tview.Flex { // Call every state change
 	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	stackPanel := createMemoryPanelUI(flexPanel, ops)
+	stackPanel := createMemoryPanelUI(flexPanel, evm)
 	stackPanel.SetBorder(true).SetTitle("Memory").SetTitleAlign(0)
 	return stackPanel
 }
@@ -55,18 +62,25 @@ func createMainLayout(opcodePanel tview.Primitive, stackPanel tview.Primitive) (
 
 // MainViewer receives all opcodes, and empty stack.
 // Passes opcodes & stack to child components.
-func InitializeMainViewer(ops [][]string) (app *tview.Application) {
+func InitializeMainViewer(evm *evm.Evm) (app *tview.Application) {
+
+	var mainUi MainUi
 
 	app = tview.NewApplication()
 	pages := tview.NewPages()
 
-	opcodePanel := createOpcodePanel(ops)   // Creates opcodePanel
-	stackPanel := createStackPanel(ops[:5]) // Creates stackPanel (initalizes stack w/ pos 1)
-	memoryPanel := createMemoryPanel(ops[:5])
+	opcodePanel := createOpcodePanel(evm) // Creates opcodePanel
+	// call Everystate change
+	stackPanel := createStackPanel(evm)   // Creates stackPanel (initalizes stack w/ pos 1)
+	memoryPanel := createMemoryPanel(evm) // Creates MemoryPanel (initialized 32 bytes to 00)
+	mainUi.MemoryPanel = memoryPanel
+	mainUi.OpcodePanel = opcodePanel
+	mainUi.StackPanel = stackPanel
+
 	stackAndMemoryPanel := createStackAndMemoryPanel(stackPanel, memoryPanel)
 	layout := createMainLayout(opcodePanel, stackAndMemoryPanel)
 	pages.AddPage("main", layout, true, true)
 
 	app.SetRoot(pages, true).SetFocus(pages)
-	return app
+	return app // called in main func (init.go)
 }

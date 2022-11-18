@@ -5,10 +5,12 @@ import (
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
+	"github.com/rottaj/EvmExplorer/evm"
 	"github.com/rottaj/EvmExplorer/opcodes"
+	//"github.com/rottaj/EvmExplorer/program"
 )
 
-func createOpcodePanelUI(operationPanel *tview.Flex, ops [][]string) *tview.Flex {
+func createOpcodePanelUI(operationPanel *tview.Flex, evm *evm.Evm) *tview.Flex {
 	table := tview.NewTable().SetBorders(false).SetSeparator(tview.Borders.Vertical)
 
 	var currentGas int = 21000 // Initialized to 21000
@@ -17,7 +19,7 @@ func createOpcodePanelUI(operationPanel *tview.Flex, ops [][]string) *tview.Flex
 	table.SetCell(0, 2, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 3, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 4, tview.NewTableCell("GAS").SetTextColor(tcell.ColorYellow))
-	for i, op := range ops {
+	for i, op := range evm.Ops {
 		temp := opcodes.StringToOpcode[op[0]]
 		currentGas += temp.StaticGas
 		fmt.Println(i+1, op, byte(temp.Op))
@@ -33,10 +35,11 @@ func createOpcodePanelUI(operationPanel *tview.Flex, ops [][]string) *tview.Flex
 	table.SetSelectable(true, false).
 		SetSelectedFunc(func(row int, column int) {
 
-			selectedOps := ops[:row]
+			selectedOps := evm.Ops[:row]
 			fmt.Println(selectedOps)
 			// Turn current cell (breakpoint) colorwhite
 			table.GetCell(row, column).SetTextColor(tcell.ColorWhite)
+			evm.Debug(row)
 		})
 
 	operationPanel.AddItem(table, 0, 4, true)
