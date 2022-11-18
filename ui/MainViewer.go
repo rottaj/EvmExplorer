@@ -13,8 +13,6 @@ type MainUi struct {
 	Layout              tview.Primitive
 }
 
-// Create Operations Panel - Opcodes Table
-
 func (mainUi *MainUi) createStackAndMemoryPanel() {
 	stackAndMemoryPanel := tview.NewFlex().SetDirection(tview.FlexColumn).
 		AddItem(mainUi.StackPanel, 0, 20, false).
@@ -22,10 +20,7 @@ func (mainUi *MainUi) createStackAndMemoryPanel() {
 	mainUi.StackAndMemoryPanel = stackAndMemoryPanel
 }
 
-// Create Main Layout - Add Operations table to MainViewer
 func (mainUi *MainUi) createMainLayout() {
-	///// Main Layout /////
-
 	mainLayout := tview.NewFlex().SetDirection(tview.FlexRow).
 		AddItem(mainUi.OpcodePanel, 0, 17, true).
 		AddItem(mainUi.StackAndMemoryPanel, 0, 3, true)
@@ -42,8 +37,6 @@ func (mainUi *MainUi) createMainLayout() {
 	mainUi.Layout = layout
 }
 
-// MainViewer receives all opcodes, and empty stack.
-// Passes opcodes & stack to child components.
 func InitializeMainViewer(evm *evm.Evm) (app *tview.Application) {
 
 	var mainUi MainUi
@@ -55,10 +48,6 @@ func InitializeMainViewer(evm *evm.Evm) (app *tview.Application) {
 	mainUi.createStackPanel(evm)
 	mainUi.createMemoryPanel(evm)
 	mainUi.createStackAndMemoryPanel()
-	// call Everystate change
-	//stackPanel := mainUi.createStackPanel(evm)   // Creates stackPanel (initalizes stack w/ pos 1)
-	//memoryPanel := mainUi.createMemoryPanel(evm) // Creates MemoryPanel (initialized 32 bytes to 00)
-
 	mainUi.createMainLayout()
 	pages.AddPage("main", mainUi.Layout, true, true)
 
