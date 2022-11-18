@@ -10,7 +10,8 @@ import (
 	//"github.com/rottaj/EvmExplorer/program"
 )
 
-func createOpcodePanelUI(operationPanel *tview.Flex, evm *evm.Evm) *tview.Flex {
+func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
+	opcodePanel := tview.NewFlex().SetDirection(tview.FlexRow)
 	table := tview.NewTable().SetBorders(false).SetSeparator(tview.Borders.Vertical)
 
 	var currentGas int = 21000 // Initialized to 21000
@@ -40,8 +41,10 @@ func createOpcodePanelUI(operationPanel *tview.Flex, evm *evm.Evm) *tview.Flex {
 			// Turn current cell (breakpoint) colorwhite
 			table.GetCell(row, column).SetTextColor(tcell.ColorWhite)
 			evm.Debug(row)
+			//mainUi.MemoryPanel.SetCell(i+1, 4, tview.NewTableCell(fmt.Sprintf("%v", currentGas)))
 		})
 
-	operationPanel.AddItem(table, 0, 4, true)
-	return operationPanel
+	opcodePanel.AddItem(table, 0, 4, true)
+	opcodePanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
+	mainUi.OpcodePanel = opcodePanel
 }

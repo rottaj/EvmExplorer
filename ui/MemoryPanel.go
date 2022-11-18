@@ -1,23 +1,22 @@
 package ui
 
 import (
-	"fmt"
-
 	"github.com/rivo/tview"
 	"github.com/rottaj/EvmExplorer/evm"
 )
 
-func createMemoryPanelUI(memoryPanel *tview.Flex, evm *evm.Evm) *tview.Flex {
+func (mainUi *MainUi) createMemoryPanel(evm *evm.Evm) { // Called on Init
+	memoryPanel := tview.NewTable().SetBorder(true).SetTitle("Memory")
 
-	//text := tview.NewTextView().SetText("0000000000000000000000000000000000000000000000000000000000000040") // Itialize
-	text := tview.NewTextView().SetText(fmt.Sprintf("%d", evm.Pc)) // Itialize
-	memoryPanel.AddItem(text, 0, 1, false)
-	return memoryPanel
+	// Iterate through ops and build Stack
+
+	// Check opcodes and build stack
+
+	mainUi.MemoryPanel = memoryPanel
+	//text := tview.NewTextView().SetText(fmt.Sprintf("%d", evm.Pc)) // Itialize
+	//memoryPanel.AddItem(text, 0, 1, false)
 }
 
-func updateMemoryPanelUI(memoryPanel *tview.Flex, evm *evm.Evm) {
+func (mainUi *MainUi) updateMemoryPanel(evm *evm.Evm) {
 
-	//text := tview.NewTextView().SetText("0000000000000000000000000000000000000000000000000000000000000040") // Itialize
-	text := tview.NewTextView().SetText(fmt.Sprintf("%d", evm.Pc)) // Itialize
-	memoryPanel.AddItem(text, 0, 1, false)
 }

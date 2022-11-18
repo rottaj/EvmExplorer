@@ -5,8 +5,11 @@ import (
 	"github.com/rottaj/EvmExplorer/evm"
 )
 
-func createStackPanelUI(stackPanel *tview.Flex, evm *evm.Evm) *tview.Flex {
-	table := tview.NewTable().SetBorders(false)
+func (mainUi *MainUi) createStackPanel(evm *evm.Evm) {
+	// opcodePanel is adds Table w/ opcodePanelAddItem in UI creator
+	//stackPanel := tview.NewFlex().SetDirection(tview.FlexRow)
+	//stackPanel.SetBorder(true).SetTitle("Stack").SetTitleAlign(0)
+	stackPanel := tview.NewTable().SetBorder(true).SetTitle("Stack")
 
 	// Iterate through ops and build Stack
 
@@ -22,6 +25,6 @@ func createStackPanelUI(stackPanel *tview.Flex, evm *evm.Evm) *tview.Flex {
 			table.SetCell(i, 3, tview.NewTableCell(fmt.Sprintf(strconv.Itoa(i)+" "+x)))
 		}
 	*/
-	stackPanel.AddItem(table, 0, 4, true)
-	return stackPanel
+	//stackPanel.AddItem(table, 0, 4, true)
+	mainUi.StackPanel = stackPanel
 }
