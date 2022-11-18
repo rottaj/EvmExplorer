@@ -2,71 +2,55 @@ package ui
 
 import (
 	"github.com/rivo/tview"
+	"github.com/rottaj/EvmExplorer/evm"
 )
 
-// Create Operations Panel - Opcodes Table
-func createOpcodePanel(opcodes [][]string) *tview.Flex {
-	// opcodePanel is adds Table w/ opcodePanelAddItem in UI creator
-	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	opcodePanel := createOpcodePanelUI(flexPanel, opcodes)
-	opcodePanel.SetBorder(true).SetTitle("Operations").SetTitleAlign(0)
-	return opcodePanel
+type MainUi struct {
+	MemoryPanel         *tview.Table
+	StackPanel          *tview.Table
+	OpcodePanel         tview.Primitive
+	StackAndMemoryPanel tview.Primitive
+	Layout              tview.Primitive
 }
 
-func createStackPanel(ops [][]string) *tview.Flex {
-	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	stackPanel := createStackPanelUI(flexPanel, ops)
-	stackPanel.SetBorder(true).SetTitle("Stack").SetTitleAlign(0)
-	return stackPanel
-}
-
-func createMemoryPanel(ops [][]string) *tview.Flex {
-	flexPanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	stackPanel := createMemoryPanelUI(flexPanel, ops)
-	stackPanel.SetBorder(true).SetTitle("Memory").SetTitleAlign(0)
-	return stackPanel
-}
-
-func createStackAndMemoryPanel(stackPanel tview.Primitive, memoryPanel tview.Primitive) *tview.Flex {
+func (mainUi *MainUi) createStackAndMemoryPanel() {
 	stackAndMemoryPanel := tview.NewFlex().SetDirection(tview.FlexColumn).
-		AddItem(stackPanel, 0, 20, false).
-		AddItem(memoryPanel, 0, 20, false)
-	return stackAndMemoryPanel
+		AddItem(mainUi.StackPanel, 0, 20, false).
+		AddItem(mainUi.MemoryPanel, 0, 20, false)
+	mainUi.StackAndMemoryPanel = stackAndMemoryPanel
 }
 
-// Create Main Layout - Add Operations table to MainViewer
-func createMainLayout(opcodePanel tview.Primitive, stackPanel tview.Primitive) (layout *tview.Flex) {
-	///// Main Layout /////
+func (mainUi *MainUi) createMainLayout() {
 	mainLayout := tview.NewFlex().SetDirection(tview.FlexRow).
-		AddItem(opcodePanel, 0, 17, true).
-		AddItem(stackPanel, 0, 3, true)
+		AddItem(mainUi.OpcodePanel, 0, 17, true).
+		AddItem(mainUi.StackAndMemoryPanel, 0, 3, true)
 
 	footer := tview.NewTextView()
 	footer.SetBorder(true)
 	footer.SetText("<EVM Explorer - a rottaj project>")
 	footer.SetTextAlign(tview.AlignCenter)
 
-	layout = tview.NewFlex().SetDirection(tview.FlexRow).
+	layout := tview.NewFlex().SetDirection(tview.FlexRow).
 		AddItem(mainLayout, 0, 20, true).
 		AddItem(footer, 3, 1, false)
 
-	return layout
+	mainUi.Layout = layout
 }
 
-// MainViewer receives all opcodes, and empty stack.
-// Passes opcodes & stack to child components.
-func InitializeMainViewer(ops [][]string) (app *tview.Application) {
+func InitializeMainViewer(evm *evm.Evm) (app *tview.Application) {
+
+	var mainUi MainUi
 
 	app = tview.NewApplication()
 	pages := tview.NewPages()
 
-	opcodePanel := createOpcodePanel(ops)   // Creates opcodePanel
-	stackPanel := createStackPanel(ops[:5]) // Creates stackPanel (initalizes stack w/ pos 1)
-	memoryPanel := createMemoryPanel(ops[:5])
-	stackAndMemoryPanel := createStackAndMemoryPanel(stackPanel, memoryPanel)
-	layout := createMainLayout(opcodePanel, stackAndMemoryPanel)
-	pages.AddPage("main", layout, true, true)
+	mainUi.createOpcodePanel(evm)
+	mainUi.createStackPanel(evm)
+	mainUi.createMemoryPanel(evm)
+	mainUi.createStackAndMemoryPanel()
+	mainUi.createMainLayout()
+	pages.AddPage("main", mainUi.Layout, true, true)
 
 	app.SetRoot(pages, true).SetFocus(pages)
-	return app
+	return app // called in main func (init.go)
 }
