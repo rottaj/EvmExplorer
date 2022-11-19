@@ -17,8 +17,8 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 	table.SetCell(0, 0, tview.NewTableCell("STEP").SetTextColor(tcell.ColorYellow).SetSelectable(false))
 	table.SetCell(0, 1, tview.NewTableCell("NAME").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 2, tview.NewTableCell("DATA").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 3, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 4, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 3, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 4, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 5, tview.NewTableCell("GAS").SetTextColor(tcell.ColorYellow))
 	for i, step := range evm.Steps {
 		//currentGas += temp.StaticGas
@@ -32,7 +32,8 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 		}
 
 		table.SetCell(i+1, 3, tview.NewTableCell(fmt.Sprintf("0x%x", step.Op)))
-		table.SetCell(i+1, 4, tview.NewTableCell(fmt.Sprintf("%v", currentGas)))
+		table.SetCell(i+1, 4, tview.NewTableCell(fmt.Sprintf("%v", step.Pc)))
+		table.SetCell(i+1, 5, tview.NewTableCell(fmt.Sprintf("%v", currentGas)))
 	}
 	table.SetSelectable(true, false).
 		SetSelectedFunc(func(row int, column int) {

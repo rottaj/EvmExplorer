@@ -1,7 +1,6 @@
 package evm
 
 import (
-	"fmt"
 	"log"
 	"math/big"
 	"strconv"
@@ -39,7 +38,7 @@ func (evm *Evm) Debug(step int) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Println(currentStep.Data, byteLength)
+			//fmt.Println(currentStep.Data, byteLength)
 			evm.push(currentStep.Data, byteLength) // pushdata to stack
 		}
 		if opCode == opcodes.POP {
@@ -51,7 +50,7 @@ func (evm *Evm) Debug(step int) {
 		//fmt.Println(evm.Ops[i])
 		//fmt.Println("STACK", evm.Stack)
 		//operationStep.Pc = evm.Pc
-		//evm.Steps = append(evm.Steps, operationStep) // to step
+		evm.Steps[i].Pc = evm.Pc
 	}
 
 }

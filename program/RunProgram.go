@@ -43,8 +43,8 @@ func getStepsFromOpcodes(contractOpcodes []string) []*evm.Step {
 				data := new(big.Int)
 				data.SetString(val[len(val)-1], 16)
 
-				fmt.Println("BAR", val[len(val)-1])
-				fmt.Println("BAR", data)
+				//fmt.Println("BAR", val[len(val)-1])
+				//fmt.Println("BAR", data)
 				operationStep.Data = data
 				i++
 			}
@@ -63,10 +63,10 @@ func RunProgram(filePath string) {
 	contractOpcodes := BuildAssemblyFromSol(filePath) // Get opcodes
 
 	opcodeSteps := getStepsFromOpcodes(contractOpcodes)
-	fmt.Println(opcodeSteps)
+	fmt.Println(opcodeSteps, len(opcodeSteps))
 	evm.Steps = opcodeSteps
 	evm.Pc = 0
-	evm.Debug(6) // Debug program w/ Step
+	evm.Debug(81) // Debug program w/ Step
 	//evm.Debug(len(evm.Steps) - 1) // Debug program w/ Step
 	//fmt.Println("Stack", evm.Stack)
 	//fmt.Println("Memory", evm.Memory)
