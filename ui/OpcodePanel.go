@@ -6,7 +6,6 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"github.com/rottaj/EvmExplorer/evm"
-	"github.com/rottaj/EvmExplorer/opcodes"
 	//"github.com/rottaj/EvmExplorer/program"
 )
 
@@ -17,19 +16,22 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 	var currentGas int = 21000 // Initialized to 21000
 	table.SetCell(0, 0, tview.NewTableCell("STEP").SetTextColor(tcell.ColorYellow).SetSelectable(false))
 	table.SetCell(0, 1, tview.NewTableCell("NAME").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 2, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 3, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 4, tview.NewTableCell("GAS").SetTextColor(tcell.ColorYellow))
-	for i, op := range evm.Ops {
-		temp := opcodes.StringToOpcode[op[0]]
-		currentGas += temp.StaticGas
+	table.SetCell(0, 2, tview.NewTableCell("DATA").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 3, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 4, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 5, tview.NewTableCell("GAS").SetTextColor(tcell.ColorYellow))
+	for i, step := range evm.Steps {
+		//currentGas += temp.StaticGas
 		table.SetCell(i+1, 0, tview.NewTableCell("["+fmt.Sprint(i)+"]"))
-		if len(op) > 1 {
-			table.SetCell(i+1, 1, tview.NewTableCell(op[0]+" "+op[1]))
+
+		table.SetCell(i+1, 1, tview.NewTableCell(step.Mnemonic))
+		if step.Data != nil {
+			table.SetCell(i+1, 2, tview.NewTableCell(fmt.Sprintf("0x%x", step.Data)))
 		} else {
-			table.SetCell(i+1, 1, tview.NewTableCell(op[0]))
+			table.SetCell(i+1, 2, tview.NewTableCell(" "))
 		}
-		table.SetCell(i+1, 3, tview.NewTableCell(fmt.Sprintf("0x%x", temp.Op)))
+
+		table.SetCell(i+1, 3, tview.NewTableCell(fmt.Sprintf("0x%x", step.Op)))
 		table.SetCell(i+1, 4, tview.NewTableCell(fmt.Sprintf("%v", currentGas)))
 	}
 	table.SetSelectable(true, false).
@@ -41,7 +43,9 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 			table.GetCell(row, column).SetTextColor(tcell.ColorWhite)
 			evm.Debug(row)
 			mainUi.StackPanel.Clear()
+			mainUi.MemoryPanel.Clear()
 			mainUi.updateStackPanel(evm)
+			mainUi.updateMemoryPanel(evm)
 			//mainUi.MemoryPanel.SetCell(i+1, 4, tview.NewTableCell(fmt.Sprintf("%v", currentGas)))
 		})
 
