@@ -66,6 +66,7 @@ func RunProgram(filePath string) {
 	fmt.Println(opcodeSteps, len(opcodeSteps))
 	evm.Steps = opcodeSteps
 	evm.Pc = 0
+	evm.Gas = 21000
 	evm.Debug(81) // Debug program w/ Step
 	//evm.Debug(len(evm.Steps) - 1) // Debug program w/ Step
 	//fmt.Println("Stack", evm.Stack)

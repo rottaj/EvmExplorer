@@ -2,6 +2,8 @@ package evm
 
 import (
 	"fmt"
+
+	"github.com/rottaj/EvmExplorer/opcodes"
 )
 
 func (evm *Evm) mstore() {
@@ -18,5 +20,6 @@ func (evm *Evm) mstore() {
 	//fmt.Println(start_position, data)
 	//evm.Memory = append(evm.Memory, data)
 	// write to memory
+	evm.Gas += opcodes.MSTORE.StaticGas
 	evm.Pc += 1
 }
