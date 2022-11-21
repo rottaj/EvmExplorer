@@ -353,3 +353,21 @@ func IsPush(op Opcode) bool {
 		return false
 	}
 }
+
+func IsSwap(op Opcode) bool {
+	switch op {
+	case SWAP1, SWAP2, SWAP3, SWAP4, SWAP5, SWAP6, SWAP7, SWAP8, SWAP9, SWAP10, SWAP11, SWAP12, SWAP13, SWAP14, SWAP15, SWAP16:
+		return true
+	default:
+		return false
+	}
+}
+
+func IsDup(op Opcode) bool {
+	switch op {
+	case DUP1, DUP2, DUP3, DUP4, DUP5, DUP6, DUP7, DUP8, DUP9, DUP10, DUP11, DUP12, DUP13, DUP14, DUP15, DUP16:
+		return true
+	default:
+		return false
+	}
+}

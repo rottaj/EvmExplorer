@@ -2,6 +2,7 @@ package program
 
 import (
 	"log"
+	"math/big"
 	"os/exec"
 	"strings"
 
@@ -22,22 +23,33 @@ func BuildAssemblyFromSol(filePath string) []string {
 
 // Takes in string from BuildAssemblyFromSol
 // Returns OpcodeSteps, PC, Gas,
-func getStepsFromOpcodes(contractOpcodes []string) [][]string {
-	var steps [][]string
-	//var gas []int
-	//gas[0] = 21000 // Initialize gas price at 21000
+func getStepsFromOpcodes(contractOpcodes []string) []*evm.Step {
+
+	var steps []*evm.Step
 	for i := 0; i < len(contractOpcodes)-1; i++ {
 		_, isOpcode := opcodes.StringToOpcode[contractOpcodes[i]]
 		if isOpcode {
-			var temp []string
-			temp = append(temp, contractOpcodes[i])
+			opCode := opcodes.StringToOpcode[contractOpcodes[i]]
+			var operationStep = &evm.Step{
+				Mnemonic: opCode.Mnemonic,
+				Gas:      opCode.StaticGas,
+				Op:       opCode.Op,
+				//Pc: int, // Updated in debug
+			}
 			if strings.HasPrefix(contractOpcodes[i+1], "0x") {
-				temp = append(temp, contractOpcodes[i+1])
+				val := strings.Split(contractOpcodes[i+1], "0x") // Delete str
+				data := new(big.Int)
+				data.SetString(val[len(val)-1], 16)
+
+				//fmt.Println("BAR", val[len(val)-1])
+				//fmt.Println("BAR", data)
+				operationStep.Data = data
 				i++
 			}
-			steps = append(steps, temp)
-
+			//fmt.Println("FOOO", operationStep)
+			steps = append(steps, operationStep)
 		}
+
 	}
 	return steps
 }
@@ -46,17 +58,14 @@ func RunProgram(filePath string) {
 
 	var evm evm.Evm
 
-	contractOpcodes := BuildAssemblyFromSol(filePath) // Get opcodes
+	// Program computes steps then passes to frontend. (*evm compiles opcode)
+	contractOpcodes := BuildAssemblyFromSol(filePath)   // Get opcodes
+	opcodeSteps := getStepsFromOpcodes(contractOpcodes) // Get steps from opcodes
 
-	opcodeSteps := getStepsFromOpcodes(contractOpcodes)
-	evm.Ops = opcodeSteps
+	evm.Steps = opcodeSteps
 	evm.Pc = 0
-	evm.Debug(3) // Debug program w/ Step
-
-	// InitializeMainViewer arguments: opcodeSteps, stack, memory, PC?
-	// Program computes everything then passes to frontend.
-	// When user wants to update viewer, rerender with spliced data ( handled in ui w/ key.Pressed )
-
+	evm.Gas = 21000
+	evm.Debug(len(evm.Steps))
 	app := ui.InitializeMainViewer(&evm)
 	if err := app.Run(); err != nil {
 		panic(err)
