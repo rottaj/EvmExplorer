@@ -1,7 +1,6 @@
 package program
 
 import (
-	"fmt"
 	"log"
 	"math/big"
 	"os/exec"
@@ -25,9 +24,8 @@ func BuildAssemblyFromSol(filePath string) []string {
 // Takes in string from BuildAssemblyFromSol
 // Returns OpcodeSteps, PC, Gas,
 func getStepsFromOpcodes(contractOpcodes []string) []*evm.Step {
+
 	var steps []*evm.Step
-	//var gas []int
-	//gas[0] = 21000 // Initialize gas price at 21000
 	for i := 0; i < len(contractOpcodes)-1; i++ {
 		_, isOpcode := opcodes.StringToOpcode[contractOpcodes[i]]
 		if isOpcode {
@@ -60,20 +58,14 @@ func RunProgram(filePath string) {
 
 	var evm evm.Evm
 
-	contractOpcodes := BuildAssemblyFromSol(filePath) // Get opcodes
+	// Program computes steps then passes to frontend. (*evm compiles opcode)
+	contractOpcodes := BuildAssemblyFromSol(filePath)   // Get opcodes
+	opcodeSteps := getStepsFromOpcodes(contractOpcodes) // Get steps from opcodes
 
-	opcodeSteps := getStepsFromOpcodes(contractOpcodes)
-	fmt.Println(opcodeSteps, len(opcodeSteps))
 	evm.Steps = opcodeSteps
 	evm.Pc = 0
 	evm.Gas = 21000
-	evm.Debug(81) // Debug program w/ Step
-	//evm.Debug(len(evm.Steps) - 1) // Debug program w/ Step
-	//fmt.Println("Stack", evm.Stack)
-	//fmt.Println("Memory", evm.Memory)
-	// InitializeMainViewer arguments: opcodeSteps, stack, memory, PC?
-	// Program computes everything then passes to frontend.
-	// When user wants to update viewer, rerender with spliced data ( handled in ui w/ key.Pressed )
+	evm.Debug(len(evm.Steps))
 	app := ui.InitializeMainViewer(&evm)
 	if err := app.Run(); err != nil {
 		panic(err)

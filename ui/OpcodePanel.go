@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -13,9 +14,9 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 	opcodePanel := tview.NewFlex().SetDirection(tview.FlexRow)
 	table := tview.NewTable().SetBorders(false).SetSeparator(tview.Borders.Vertical)
 
-	table.SetCell(0, 0, tview.NewTableCell("STEP").SetTextColor(tcell.ColorYellow).SetSelectable(false))
+	table.SetCell(0, 0, tview.NewTableCell("STEP").SetTextColor(tcell.ColorRed).SetSelectable(false))
 	table.SetCell(0, 1, tview.NewTableCell("NAME").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 2, tview.NewTableCell("HEX").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 2, tview.NewTableCell("DATA").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 3, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 4, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 5, tview.NewTableCell("GAS").SetTextColor(tcell.ColorYellow))
@@ -25,7 +26,15 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 
 		table.SetCell(i+1, 1, tview.NewTableCell(step.Mnemonic))
 		if step.Data != nil {
-			table.SetCell(i+1, 2, tview.NewTableCell(fmt.Sprintf("0x%x", step.Data)))
+			data := strings.Split(fmt.Sprintf("0x%x", step.Data), "")
+			if len(data) > 9 { // Prevent rest of table from leaving screen
+				data = data[:9]
+				data = append(data, "...")
+
+			}
+			dataStr := strings.Join(data[:], "")
+			table.SetCell(i+1, 2, tview.NewTableCell(dataStr))
+			//table.SetCell(i+1, 2, tview.NewTableCell()
 		} else {
 			table.SetCell(i+1, 2, tview.NewTableCell(" "))
 		}

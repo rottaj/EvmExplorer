@@ -15,7 +15,6 @@ type Evm struct {
 	Gas    int
 	Stack  []*big.Int
 	Memory []int
-	Ops    [][]string // value push at init.. only used for calling.
 	Steps  []*Step
 }
 type Step struct {
@@ -71,10 +70,78 @@ func (evm *Evm) Debug(step int) {
 			x := evm.pop()
 			_ = x
 		}
-		//if
-		//if opCode
+		if opCode == opcodes.ADD {
+			evm.add()
+		}
+		if opCode == opcodes.SUB {
+			evm.sub()
+		}
+		if opCode == opcodes.MUL {
+			evm.mul()
+		}
+		if opCode == opcodes.DIV || opCode == opcodes.SDIV {
+			evm.div()
+		}
+		if opCode == opcodes.MOD || opCode == opcodes.SMOD {
+			evm.mod()
+		}
+
 		evm.Steps[i].Gas = evm.Gas
 		evm.Steps[i].Pc = evm.Pc
 	}
+
+}
+
+func (evm *Evm) add() {
+	x := evm.pop()
+	y := evm.pop()
+	sum := big.NewInt(0)
+	sum = sum.Add(x, y)
+	evm.Stack = append(evm.Stack, sum)
+	evm.Gas += opcodes.ADD.StaticGas // update
+	evm.Pc += 1
+}
+
+func (evm *Evm) sub() {
+	x := evm.pop()
+	y := evm.pop()
+	sum := big.NewInt(0)
+	sum = sum.Sub(x, y)
+	evm.Stack = append(evm.Stack, sum)
+	evm.Gas += opcodes.ADD.StaticGas // update
+	evm.Pc += 1
+}
+
+func (evm *Evm) mul() {
+	x := evm.pop()
+	y := evm.pop()
+	sum := big.NewInt(0)
+	sum = sum.Mul(x, y)
+	evm.Stack = append(evm.Stack, sum)
+	evm.Gas += opcodes.ADD.StaticGas // update
+	evm.Pc += 1
+}
+
+func (evm *Evm) div() {
+	x := evm.pop()
+	y := evm.pop()
+	sum := big.NewInt(0)
+	sum = sum.Div(x, y)
+	evm.Stack = append(evm.Stack, sum)
+	evm.Gas += opcodes.ADD.StaticGas // update
+	evm.Pc += 1
+}
+
+func (evm *Evm) mod() {
+	x := evm.pop()
+	y := evm.pop()
+	sum := big.NewInt(0)
+	sum = sum.Mod(x, y)
+	evm.Stack = append(evm.Stack, sum)
+	evm.Gas += opcodes.ADD.StaticGas // update
+	evm.Pc += 1
+}
+
+func (evm *Evm) addmod() {
 
 }
