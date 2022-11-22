@@ -13,8 +13,8 @@ import (
 type Evm struct {
 	Pc     int
 	Gas    int
-	Stack  []*big.Int
-	Memory []int
+	Stack  []*big.Int // Add Depth? ( using len() ? )
+	Memory []int      // Add MemSize?
 	Steps  []*Step
 }
 type Step struct {
@@ -25,9 +25,15 @@ type Step struct {
 	Gas      int
 }
 
+// Still need to estimate gas limit. See here:
+//https://github.com/ethereum/go-ethereum/commit/682875adff760a29a2bb0024190883e4b4dd5d72
+
 // Still need uint256 (32 bytes) padding. Because go supports up to 64 bits,
 // split padding into 4 slices of 8 bytes? []int64[]int64[]int64[]int64 --> big.Int
 // Use go-ethereum/uint256?
+
+// For address specific stack ops we can use address:
+// FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 func (evm *Evm) Debug(step int) {
 	evm.Stack = nil
@@ -113,7 +119,7 @@ func (evm *Evm) Debug(step int) {
 		if opCode == opcodes.STOP {
 			evm.stop()
 		}
-
+		//fmt.Println()
 		evm.Steps[i].Gas = evm.Gas
 		evm.Steps[i].Pc = evm.Pc
 	}
