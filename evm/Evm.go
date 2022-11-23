@@ -14,7 +14,7 @@ type Evm struct {
 	Pc     int
 	Gas    int
 	Stack  []*big.Int // Add Depth? ( using len() ? )
-	Memory []int      // Add MemSize?
+	Memory []string   // Add MemSize?
 	Steps  []*Step
 }
 type Step struct {

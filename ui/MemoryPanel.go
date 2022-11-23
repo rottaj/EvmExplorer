@@ -16,6 +16,6 @@ func (mainUi *MainUi) createMemoryPanel(evm *evm.Evm) { // Called on Init
 
 func (mainUi *MainUi) updateMemoryPanel(evm *evm.Evm) {
 	for i, data := range evm.Memory {
-		mainUi.MemoryPanel.SetCell(i, 0, tview.NewTableCell(fmt.Sprintf("%d", data)))
+		mainUi.MemoryPanel.SetCell(i, 0, tview.NewTableCell(fmt.Sprintf(data)))
 	}
 }
