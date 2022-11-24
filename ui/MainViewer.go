@@ -9,7 +9,7 @@ import (
 )
 
 type MainUi struct {
-	MemoryPanel         *tview.Table
+	MemoryPanel         *tview.TextView
 	StackPanel          *tview.Table
 	OpcodePanel         tview.Primitive
 	StackAndMemoryPanel tview.Primitive
@@ -80,9 +80,9 @@ func createModalUI() *tview.Flex {
 func InitializeMainViewer(evm *evm.Evm) (app *tview.Application) {
 
 	var mainUi MainUi
-
 	/*
 		box := createModalUI()
+
 		modal := func(p tview.Primitive, width, height int) tview.Primitive {
 			return tview.NewFlex().
 				AddItem(nil, 0, 1, false).
@@ -92,20 +92,22 @@ func InitializeMainViewer(evm *evm.Evm) (app *tview.Application) {
 					AddItem(nil, 0, 1, false), width, 1, true).
 				AddItem(nil, 0, 1, false)
 		}
-			modal.SetDoneFunc(func(buttonIndex int, buttonLabel string) {
-				if buttonLabel == "Quit" {
-					app.Stop()
-				}
-			})
-
 	*/
+	/*
+		modal.SetDoneFunc(func(buttonIndex int, buttonLabel string) {
+			if buttonLabel == "Quit" {
+				app.Stop()
+			}
+		})
+	*/
+
 	app = tview.NewApplication()
 	pages := tview.NewPages()
 	mainUi.createOpcodePanel(evm)
 	mainUi.createStackPanel(evm)
 	mainUi.createMemoryPanel(evm)
 	mainUi.createStackAndMemoryPanel()
-	//mainUi.createModal()
+	//`mainUi.createModal()
 	mainUi.createMainLayout()
 	pages.AddPage("main", mainUi.Layout, true, true)
 	//pages.AddPage("modal", modal(box, 50, 20), true, true)

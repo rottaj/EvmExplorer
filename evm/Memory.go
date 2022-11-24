@@ -2,8 +2,7 @@ package evm
 
 import (
 	"fmt"
-	"log"
-	"strconv"
+	"strings"
 
 	"github.com/rottaj/EvmExplorer/opcodes"
 )
@@ -18,45 +17,32 @@ func (evm *Evm) mstore() {
 	t1 := fmt.Sprintf("%X", data)
 	_ = t
 	_ = t1
-	x, err := strconv.ParseInt(t, 16, 16)
-	if err != nil {
-		log.Fatal(err)
-	}
 	var memoryLocation []string
-
 	_ = memoryLocation
-	if x*2 < 32 {
-		//fmt.Println("Memory Location: 0x00", x*2)
-		//fmt.Println(t, t1)
-		//fmt.Println("--------------------------------------------------------------")
-	} else {
-		//fmt.Println("Greater than 0x00", x*2)
-		//fmt.Println(t, t1)
-		var temp string
-		for i := len(memoryLocation); i <= int(x*2); i++ {
-			temp = fmt.Sprintf(temp + "0")
-			if i%32 == 0 {
-				memoryLocation = append(memoryLocation, string(temp))
-				//fmt.Println("TEST", temp)
-				temp = ""
-			}
-		}
-		//fmt.Println(memoryLocation)
-		//fmt.Println("--------------------------------------------------------------")
-	}
-	/*
-		res := strings.Split(t, "")
-		for i := 0; i <= len(res)-1; i++ {
-			fmt.Println("I", res[i])
-		}
-	*/
-	// 1.) Fill x w/ 0' padding (32 bytes hex)
-	// 2.) Expand memory based on position
 
-	//fmt.Println("T", t, t1)
-	//fmt.Println(start_position, data)
-	//evm.Memory = append(evm.Memory, data)
-	// write to memory
+	x := start_position.Uint64()
+	x = x * 2
+
+	//fmt.Println("Memory Location:", x)
+
+	for i := 0; i < int(x); i++ {
+		memoryLocation = append(memoryLocation, "0")
+	}
+
+	// Build data
+	z := strings.Split(t1, "")
+
+	fmt.Println(z)
+	for i := 0; i <= 64-len(z); i++ {
+		memoryLocation = append(memoryLocation, "0")
+	}
+	for i, data := range z {
+		_ = i
+		memoryLocation = append(memoryLocation, data)
+	}
+
+	//fmt.Println(memoryLocation, len(memoryLocation))
+	// Need to update this...
 	evm.Memory = memoryLocation
 	evm.Gas += opcodes.MSTORE.StaticGas
 	evm.Pc += 1
