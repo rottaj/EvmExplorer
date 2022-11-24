@@ -66,6 +66,7 @@ func RunProgram(filePath string) {
 	evm.Pc = 0
 	evm.Gas = 21000
 	evm.Debug(len(evm.Steps))
+	//evm.Debug(5)
 	app := ui.InitializeMainViewer(&evm)
 	if err := app.Run(); err != nil {
 		panic(err)

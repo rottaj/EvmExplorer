@@ -19,7 +19,7 @@ func (mainUi *MainUi) createOpcodePanel(evm *evm.Evm) {
 	table.SetCell(0, 2, tview.NewTableCell("DATA").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 3, tview.NewTableCell("OPCODE").SetTextColor(tcell.ColorYellow))
 	table.SetCell(0, 4, tview.NewTableCell("PC").SetTextColor(tcell.ColorYellow))
-	table.SetCell(0, 5, tview.NewTableCell("GAS").SetTextColor(tcell.ColorYellow))
+	table.SetCell(0, 5, tview.NewTableCell("MINGAS").SetTextColor(tcell.ColorYellow))
 	for i, step := range evm.Steps {
 		//currentGas += temp.StaticGas
 		table.SetCell(i+1, 0, tview.NewTableCell("["+fmt.Sprint(i)+"]"))
